@@ -141,3 +141,58 @@ export interface WalletAdjustmentResult {
   type: string;
   status: string;
 }
+
+export interface PagnovoCredentials {
+  secretKey: string;
+  apiUrl: string;
+  environment: string;
+  webhookCallbackUrl: string;
+  requiredScopes: string[];
+  sandboxNotes: { dailyCap: number; testAmounts: string };
+}
+
+export interface PagnovoBalance {
+  available: number;
+  inSettlement?: number;
+  guaranteeDeposits?: number;
+  cautiousBlocks?: number;
+  chargebackReserves?: number;
+}
+
+export interface PagnovoWebhook {
+  id: string;
+  url: string;
+  description?: string;
+  events: string[];
+  active: boolean;
+  secret?: string;
+}
+
+export interface PagnovoWebhookTestResult {
+  statusCode: number;
+  durationMs: number;
+  responseBody?: string;
+}
+
+export interface PagnovoWebhookDelivery {
+  id: string;
+  event: string;
+  statusCode: number;
+  durationMs: number;
+  createdAt: string;
+  responseBody?: string;
+}
+
+export interface PagnovoWebhookDeliveryPage {
+  data: PagnovoWebhookDelivery[];
+  page: number;
+  limit: number;
+}
+
+export interface PagnovoWebhookMetrics {
+  period: string;
+  totalDeliveries: number;
+  successCount: number;
+  failureCount: number;
+  avgLatencyMs?: number;
+}

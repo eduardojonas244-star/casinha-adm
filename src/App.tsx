@@ -15,6 +15,8 @@ import { ProvidersPage } from './pages/ProvidersPage';
 import { MatchHistoryPage } from './pages/MatchHistoryPage';
 import { GameLaunchConfigPage } from './pages/GameLaunchConfigPage';
 import { PlayFiverKeysPage } from './pages/PlayFiverKeysPage';
+import { PagnovoCredentialsPage } from './pages/PagnovoCredentialsPage';
+import { PagnovoWebhooksPage } from './pages/PagnovoWebhooksPage';
 import { AffiliatesPage } from './pages/AffiliatesPage';
 import { AccessDeniedPage } from './pages/AccessDeniedPage';
 
@@ -49,6 +51,8 @@ export default function App() {
           <Route path="games/match-history" element={<MatchHistoryPage />} />
           <Route path="games/launch-config" element={<GameLaunchConfigPage />} />
           <Route path="games/keys" element={<PlayFiverKeysPage />} />
+          <Route path="payments/credentials" element={<PagnovoCredentialsPage />} />
+          <Route path="payments/webhooks" element={<PagnovoWebhooksPage />} />
           <Route path="affiliates" element={<AffiliatesPage />} />
         </Route>
       </Routes>

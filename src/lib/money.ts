@@ -4,6 +4,11 @@ export function formatCentavos(value: string | number): string {
   return (cents / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
 
+export function formatReais(reais: number): string {
+  if (!Number.isFinite(reais)) return 'R$ 0,00';
+  return reais.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+
 export function formatDate(value: string): string {
   return new Date(value).toLocaleString('pt-BR');
 }

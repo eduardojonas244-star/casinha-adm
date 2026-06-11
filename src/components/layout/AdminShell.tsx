@@ -21,9 +21,15 @@ const gamesNav = [
   { to: paths.gameKeys, label: 'Chaves dos Jogos', icon: '⚙️' },
 ];
 
+const paymentsNav = [
+  { to: paths.paymentsCredentials, label: 'Credenciais Pagnovo', icon: '🔑' },
+  { to: paths.paymentsWebhooks, label: 'Webhooks Pagnovo', icon: '🔔' },
+];
+
 export function AdminShell() {
   const { profile, logout } = useAuth();
   const [gamesOpen, setGamesOpen] = useState(true);
+  const [paymentsOpen, setPaymentsOpen] = useState(true);
 
   return (
     <div className="flex min-h-screen bg-casino-bg">
@@ -72,6 +78,40 @@ export function AdminShell() {
                     key={item.to}
                     to={item.to}
                     end={item.to === paths.games}
+                    className={({ isActive }) =>
+                      `flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition ${
+                        isActive
+                          ? 'bg-casino-green/10 font-semibold text-casino-green'
+                          : 'text-casino-muted hover:bg-casino-card hover:text-white'
+                      }`
+                    }
+                  >
+                    <span className="text-xs">{item.icon}</span>
+                    {item.label}
+                  </NavLink>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="pt-2">
+            <button
+              type="button"
+              onClick={() => setPaymentsOpen((o) => !o)}
+              className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm font-semibold text-casino-muted hover:bg-casino-card hover:text-white"
+            >
+              <span className="flex items-center gap-3">
+                <span>💳</span>
+                Pagamentos
+              </span>
+              <span className="text-xs">{paymentsOpen ? '▲' : '▼'}</span>
+            </button>
+            {paymentsOpen && (
+              <div className="ml-2 mt-1 space-y-0.5 border-l border-casino-border pl-2">
+                {paymentsNav.map((item) => (
+                  <NavLink
+                    key={item.to}
+                    to={item.to}
                     className={({ isActive }) =>
                       `flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition ${
                         isActive

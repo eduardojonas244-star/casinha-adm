@@ -10,6 +10,8 @@ export const paths = {
   gameMatchHistory: '/games/match-history',
   gameLaunchConfig: '/games/launch-config',
   gameKeys: '/games/keys',
+  paymentsCredentials: '/payments/credentials',
+  paymentsWebhooks: '/payments/webhooks',
   affiliates: '/affiliates',
   accessDenied: '/access-denied',
 } as const;

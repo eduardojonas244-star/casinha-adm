@@ -82,9 +82,13 @@ api.interceptors.response.use(
 
 export function getErrorMessage(error: unknown): string {
   if (axios.isAxiosError(error)) {
-    const data = error.response?.data as { message?: string | string[] } | undefined;
+    const data = error.response?.data as
+      | { message?: string | string[]; error?: string | { message?: string } }
+      | undefined;
     if (Array.isArray(data?.message)) return data.message.join(', ');
     if (typeof data?.message === 'string') return data.message;
+    if (typeof data?.error === 'string') return data.error;
+    if (typeof data?.error === 'object' && data.error?.message) return data.error.message;
     return error.message;
   }
   if (error instanceof Error) return error.message;
