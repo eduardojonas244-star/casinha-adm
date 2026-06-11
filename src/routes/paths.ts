@@ -1,0 +1,15 @@
+export const paths = {
+  login: '/login',
+  dashboard: '/',
+  users: '/users',
+  walletAdjustments: '/wallets/adjustments',
+  bonuses: '/bonuses',
+  games: '/games',
+  gameCategories: '/games/categories',
+  gameProviders: '/games/providers',
+  gameMatchHistory: '/games/match-history',
+  gameLaunchConfig: '/games/launch-config',
+  gameKeys: '/games/keys',
+  affiliates: '/affiliates',
+  accessDenied: '/access-denied',
+} as const;
