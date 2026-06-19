@@ -4,7 +4,7 @@ import { listGameRounds } from '../api/game-rounds';
 import { Button } from '../components/ui/Button';
 import { Spinner } from '../components/ui/Spinner';
 import { Alert } from '../components/ui/Alert';
-import { Badge } from '../components/ui/Badge';
+import { GameRoundOutcomeBadge } from '../components/ui/Badge';
 import { Input } from '../components/ui/Input';
 import { Table, TableHead, TableBody, TableRow, TableHeaderCell, TableCell } from '../components/ui/Table';
 import { getErrorMessage } from '../api/client';
@@ -77,9 +77,7 @@ export function MatchHistoryPage() {
                       <TableCell className="font-mono text-xs">{round.transactionId.slice(0, 12)}…</TableCell>
                       <TableCell>{round.gameCode}</TableCell>
                       <TableCell>
-                        <Badge variant={round.outcome === 'WIN' ? 'success' : round.outcome === 'LOSS' ? 'warning' : 'muted'}>
-                          {round.outcome === 'WIN' ? 'Vitória' : round.outcome === 'LOSS' ? 'Perda' : 'Empate'}
-                        </Badge>
+                        <GameRoundOutcomeBadge outcome={round.outcome} />
                       </TableCell>
                       <TableCell className="text-casino-muted">{round.balanceSource ?? '—'}</TableCell>
                       <TableCell>R$ {round.amount}</TableCell>

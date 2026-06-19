@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { listUsers } from '../api/users';
 import { formatDate } from '../lib/money';
@@ -8,6 +9,7 @@ import { Spinner } from '../components/ui/Spinner';
 import { Alert } from '../components/ui/Alert';
 import { Table, TableHead, TableBody, TableRow, TableHeaderCell, TableCell } from '../components/ui/Table';
 import { getErrorMessage } from '../api/client';
+import { paths } from '../routes/paths';
 
 const PAGE_SIZE = 20;
 
@@ -35,15 +37,17 @@ export function UsersPage() {
                 <TableRow>
                   <TableHeaderCell>Nome</TableHeaderCell>
                   <TableHeaderCell>E-mail</TableHeaderCell>
-                  <TableHeaderCell>Role</TableHeaderCell>
+                  <TableHeaderCell>Perfil</TableHeaderCell>
                   <TableHeaderCell>Status</TableHeaderCell>
                   <TableHeaderCell>Criado em</TableHeaderCell>
+                  <TableHeaderCell>{''}</TableHeaderCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {data.length === 0 ? (
                   <TableRow>
-                    <TableCell className="text-casino-muted">Nenhum usuário encontrado</TableCell>
+                    <TableCell className="text-casino-muted">Nenhum usuário encontrado.</TableCell>
+                    <TableCell>{''}</TableCell>
                     <TableCell>{''}</TableCell>
                     <TableCell>{''}</TableCell>
                     <TableCell>{''}</TableCell>
@@ -57,6 +61,14 @@ export function UsersPage() {
                       <TableCell><RoleBadge role={user.role} /></TableCell>
                       <TableCell><StatusBadge status={user.status} /></TableCell>
                       <TableCell className="text-casino-muted">{formatDate(user.createdAt)}</TableCell>
+                      <TableCell>
+                        <Link
+                          to={paths.userDetail(user.id)}
+                          className="text-xs font-semibold text-casino-green hover:underline"
+                        >
+                          Detalhes
+                        </Link>
+                      </TableCell>
                     </TableRow>
                   ))
                 )}

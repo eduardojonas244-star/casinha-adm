@@ -23,6 +23,21 @@ export interface AdminUserListItem {
   createdAt: string;
 }
 
+export interface AdminUserDetail {
+  id: string;
+  name: string;
+  email: string;
+  cpf: string;
+  phone: string | null;
+  status: string;
+  role: string;
+  createdAt: string;
+  wallet: {
+    balance: string | number;
+    bonusBalance: string | number;
+  } | null;
+}
+
 export interface FinancialReport {
   deposits: { total: string; count: number };
   withdrawals: { total: string; count: number };

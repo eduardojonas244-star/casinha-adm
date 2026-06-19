@@ -3,6 +3,7 @@ import { NavLink, Outlet } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { Button } from '../ui/Button';
 import { paths } from '../../routes/paths';
+import { userRoleLabel } from '../../lib/labels';
 
 const mainNav = [
   { to: paths.dashboard, label: 'Dashboard', icon: '📊' },
@@ -142,7 +143,7 @@ export function AdminShell() {
           <div className="flex items-center gap-3">
             {profile && (
               <span className="rounded-full border border-casino-green/30 bg-casino-green/10 px-3 py-1 text-xs font-semibold text-casino-green">
-                {profile.role}
+                {userRoleLabel(profile.role)}
               </span>
             )}
             <Button variant="ghost" size="sm" onClick={() => void logout()}>

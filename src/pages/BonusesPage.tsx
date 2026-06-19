@@ -9,6 +9,7 @@ import { Input } from '../components/ui/Input';
 import { Button } from '../components/ui/Button';
 import { Alert } from '../components/ui/Alert';
 import { getErrorMessage } from '../api/client';
+import { bonusStatusLabel } from '../lib/labels';
 
 export function BonusesPage() {
   const [success, setSuccess] = useState('');
@@ -30,7 +31,7 @@ export function BonusesPage() {
         amount: data.amount,
         expiresAt: data.expiresAt || undefined,
       });
-      setSuccess(`Bônus criado: ${formatCentavos(bonus.amount)} (${bonus.status})`);
+      setSuccess(`Bônus criado: ${formatCentavos(bonus.amount)} (${bonusStatusLabel(bonus.status)})`);
       reset();
     } catch (err) {
       setError(getErrorMessage(err));

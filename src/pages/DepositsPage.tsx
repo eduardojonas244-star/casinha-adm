@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { listAdminDeposits } from '../api/payments-admin';
 import { Spinner } from '../components/ui/Spinner';
 import { Alert } from '../components/ui/Alert';
-import { Badge } from '../components/ui/Badge';
+import { PaymentStatusBadge } from '../components/ui/Badge';
 import { Table, TableHead, TableBody, TableRow, TableHeaderCell, TableCell } from '../components/ui/Table';
 import { getErrorMessage } from '../api/client';
 import { formatCentavos, formatDate } from '../lib/money';
@@ -54,7 +54,7 @@ export function DepositsPage() {
                 <TableRow key={d.id}>
                   <TableCell>{d.userName}<br /><span className="text-xs text-casino-muted">{d.userEmail}</span></TableCell>
                   <TableCell>{formatCentavos(d.amount)}</TableCell>
-                  <TableCell><Badge>{d.status}</Badge></TableCell>
+                  <TableCell><PaymentStatusBadge status={d.status} /></TableCell>
                   <TableCell className="text-casino-muted">{formatDate(d.createdAt)}</TableCell>
                 </TableRow>
               ))}

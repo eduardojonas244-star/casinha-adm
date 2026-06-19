@@ -2,6 +2,7 @@ export const paths = {
   login: '/login',
   dashboard: '/',
   users: '/users',
+  userDetail: (id: string) => `/users/${id}`,
   walletAdjustments: '/wallets/adjustments',
   bonuses: '/bonuses',
   games: '/games',
