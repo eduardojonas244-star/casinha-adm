@@ -57,8 +57,17 @@ export interface GameCategory {
   imageUrl: string | null;
   slug: string;
   sortOrder: number;
+  isActive: boolean;
+  showOnHome: boolean;
+  gameCount?: number;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface CategoryGameAssignment {
+  gameId: string;
+  gameOrder: number;
+  game: AdminGame;
 }
 
 export interface CatalogProvider {
@@ -81,7 +90,6 @@ export interface AdminGame {
   externalId: string;
   name: string;
   category: string | null;
-  categoryId: string | null;
   imageUrl: string | null;
   active: boolean;
   showOnHome: boolean;
@@ -89,7 +97,11 @@ export interface AdminGame {
   playCount: number;
   createdAt: string;
   updatedAt: string;
-  categoryRef?: GameCategory | null;
+  assignments?: Array<{
+    categoryId: string;
+    gameOrder: number;
+    category: Pick<GameCategory, 'id' | 'name' | 'slug'>;
+  }>;
 }
 
 export interface GameRound {

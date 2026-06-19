@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -8,12 +9,18 @@ import { Spinner } from '../components/ui/Spinner';
 import { Alert } from '../components/ui/Alert';
 import { Input } from '../components/ui/Input';
 import { Card } from '../components/ui/Card';
+import { Badge } from '../components/ui/Badge';
 import { Table, TableHead, TableBody, TableRow, TableHeaderCell, TableCell } from '../components/ui/Table';
 import { getErrorMessage } from '../api/client';
 import { categorySchema, type CategoryForm } from '../lib/validators';
+import { paths } from '../routes/paths';
 import type { GameCategory } from '../types/api';
 
 const PAGE_SIZE = 20;
+
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString('pt-BR');
+}
 
 export function CategoriesPage() {
   const queryClient = useQueryClient();
@@ -30,11 +37,24 @@ export function CategoriesPage() {
 
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<CategoryForm>({
     resolver: zodResolver(categorySchema),
+    defaultValues: {
+      isActive: true,
+      showOnHome: false,
+      sortOrder: 0,
+    },
   });
 
   const openCreate = () => {
     setEditing(null);
-    reset({ name: '', slug: '', description: '', imageUrl: '' });
+    reset({
+      name: '',
+      slug: '',
+      description: '',
+      imageUrl: '',
+      sortOrder: 0,
+      isActive: true,
+      showOnHome: false,
+    });
   };
 
   const openEdit = (cat: GameCategory) => {
@@ -44,6 +64,9 @@ export function CategoriesPage() {
       slug: cat.slug,
       description: cat.description ?? '',
       imageUrl: cat.imageUrl ?? '',
+      sortOrder: cat.sortOrder,
+      isActive: cat.isActive,
+      showOnHome: cat.showOnHome,
     });
   };
 
@@ -56,6 +79,9 @@ export function CategoriesPage() {
         slug: form.slug,
         description: form.description || undefined,
         imageUrl: form.imageUrl || undefined,
+        sortOrder: form.sortOrder,
+        isActive: form.isActive,
+        showOnHome: form.showOnHome,
       };
       if (editing) {
         await updateCategory(editing.id, body);
@@ -71,10 +97,15 @@ export function CategoriesPage() {
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm('Excluir esta categoria?')) return;
+  const handleDelete = async (cat: GameCategory) => {
+    const count = cat.gameCount ?? 0;
+    const msg =
+      count > 0
+        ? `Esta categoria possui ${count} jogo(s). Deseja excluir mesmo assim? (jogos serão desvinculados)`
+        : 'Excluir esta categoria?';
+    if (!confirm(msg)) return;
     try {
-      await deleteCategory(id);
+      await deleteCategory(cat.id, count > 0);
       await queryClient.invalidateQueries({ queryKey: ['admin-categories'] });
     } catch (err) {
       setError(getErrorMessage(err));
@@ -84,7 +115,7 @@ export function CategoriesPage() {
   return (
     <div>
       <h1 className="text-2xl font-bold text-white">Todas as Categorias</h1>
-      <p className="mt-1 text-sm text-casino-muted">Gerencie categorias do catálogo</p>
+      <p className="mt-1 text-sm text-casino-muted">Gerencie categorias exibidas na Home do site</p>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-3">
         <Card className="lg:col-span-2">
@@ -105,19 +136,41 @@ export function CategoriesPage() {
                 <TableHead>
                   <TableRow>
                     <TableHeaderCell>Nome</TableHeaderCell>
-                    <TableHeaderCell>Slug</TableHeaderCell>
+                    <TableHeaderCell>Jogos</TableHeaderCell>
+                    <TableHeaderCell>Ordem</TableHeaderCell>
+                    <TableHeaderCell>Status</TableHeaderCell>
+                    <TableHeaderCell>Home</TableHeaderCell>
+                    <TableHeaderCell>Criado em</TableHeaderCell>
                     <TableHeaderCell>Ações</TableHeaderCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {data.data.map((cat) => (
                     <TableRow key={cat.id}>
-                      <TableCell>{cat.name}</TableCell>
-                      <TableCell className="text-casino-muted">{cat.slug}</TableCell>
                       <TableCell>
-                        <div className="flex gap-2">
+                        <div className="font-medium">{cat.name}</div>
+                        <div className="text-xs text-casino-muted">{cat.slug}</div>
+                      </TableCell>
+                      <TableCell>{cat.gameCount ?? 0}</TableCell>
+                      <TableCell>{cat.sortOrder}</TableCell>
+                      <TableCell>
+                        <Badge variant={cat.isActive ? 'success' : 'danger'}>
+                          {cat.isActive ? 'Ativa' : 'Inativa'}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant={cat.showOnHome ? 'green' : 'muted'}>
+                          {cat.showOnHome ? 'Sim' : 'Não'}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-casino-muted">{formatDate(cat.createdAt)}</TableCell>
+                      <TableCell>
+                        <div className="flex flex-wrap gap-2">
                           <Button variant="ghost" size="sm" onClick={() => openEdit(cat)}>Editar</Button>
-                          <Button variant="ghost" size="sm" onClick={() => void handleDelete(cat.id)}>Excluir</Button>
+                          <Link to={paths.gameCategoryDetail(cat.id)}>
+                            <Button variant="ghost" size="sm" type="button">Jogos</Button>
+                          </Link>
+                          <Button variant="ghost" size="sm" onClick={() => void handleDelete(cat)}>Excluir</Button>
                         </div>
                       </TableCell>
                     </TableRow>
@@ -140,6 +193,15 @@ export function CategoriesPage() {
             <Input label="Slug" {...register('slug')} error={errors.slug?.message} />
             <Input label="Descrição" {...register('description')} />
             <Input label="URL da imagem" {...register('imageUrl')} error={errors.imageUrl?.message} />
+            <Input label="Ordem" type="number" {...register('sortOrder', { valueAsNumber: true })} error={errors.sortOrder?.message} />
+            <label className="flex items-center gap-2 text-sm text-casino-muted">
+              <input type="checkbox" className="rounded" {...register('isActive')} />
+              Categoria ativa
+            </label>
+            <label className="flex items-center gap-2 text-sm text-casino-muted">
+              <input type="checkbox" className="rounded" {...register('showOnHome')} />
+              Exibir na Home
+            </label>
             {message && <Alert variant="success">{message}</Alert>}
             {error && <Alert variant="error">{error}</Alert>}
             <div className="flex gap-2">

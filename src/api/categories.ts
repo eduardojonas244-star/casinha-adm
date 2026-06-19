@@ -1,5 +1,5 @@
 import { api } from './client';
-import type { GameCategory, PaginatedCategories } from '../types/api';
+import type { CategoryGameAssignment, GameCategory, PaginatedCategories } from '../types/api';
 
 export async function listCategories(page = 0, limit = 20, search?: string): Promise<PaginatedCategories> {
   const { data } = await api.get<PaginatedCategories>('/admin/categories', { params: { page, limit, search } });
@@ -17,6 +17,8 @@ export async function createCategory(body: {
   description?: string;
   imageUrl?: string;
   sortOrder?: number;
+  isActive?: boolean;
+  showOnHome?: boolean;
 }): Promise<GameCategory> {
   const { data } = await api.post<GameCategory>('/admin/categories', body);
   return data;
@@ -24,12 +26,30 @@ export async function createCategory(body: {
 
 export async function updateCategory(
   id: string,
-  body: Partial<{ name: string; slug: string; description: string; imageUrl: string; sortOrder: number }>,
+  body: Partial<{
+    name: string;
+    slug: string;
+    description: string;
+    imageUrl: string;
+    sortOrder: number;
+    isActive: boolean;
+    showOnHome: boolean;
+  }>,
 ): Promise<GameCategory> {
   const { data } = await api.patch<GameCategory>(`/admin/categories/${id}`, body);
   return data;
 }
 
-export async function deleteCategory(id: string): Promise<void> {
-  await api.delete(`/admin/categories/${id}`);
+export async function deleteCategory(id: string, force = false): Promise<void> {
+  await api.delete(`/admin/categories/${id}`, { params: force ? { force: true } : undefined });
+}
+
+export async function getCategoryGames(id: string): Promise<CategoryGameAssignment[]> {
+  const { data } = await api.get<CategoryGameAssignment[]>(`/admin/categories/${id}/games`);
+  return data;
+}
+
+export async function setCategoryGames(id: string, gameIds: string[]): Promise<CategoryGameAssignment[]> {
+  const { data } = await api.put<CategoryGameAssignment[]>(`/admin/categories/${id}/games`, { gameIds });
+  return data;
 }

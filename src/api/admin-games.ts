@@ -19,7 +19,7 @@ export async function syncAdminGames(): Promise<{ synced: number; validImages: n
 
 export async function updateAdminGame(
   id: string,
-  body: Partial<{ showOnHome: boolean; gameOriginal: boolean; active: boolean; categoryId: string | null }>,
+  body: Partial<{ showOnHome: boolean; gameOriginal: boolean; active: boolean }>,
 ): Promise<AdminGame> {
   const { data } = await api.patch<AdminGame>(`/admin/games/${id}`, body);
   return data;

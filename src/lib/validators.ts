@@ -28,6 +28,9 @@ export const categorySchema = z.object({
   slug: z.string().min(1, 'Slug obrigatório').regex(/^[a-z0-9-]+$/, 'Slug: apenas minúsculas, números e hífen'),
   description: z.string().max(1000).optional(),
   imageUrl: z.string().url('URL inválida').optional().or(z.literal('')),
+  sortOrder: z.number().int().min(0).optional(),
+  isActive: z.boolean().optional(),
+  showOnHome: z.boolean().optional(),
 });
 
 export type CategoryForm = z.infer<typeof categorySchema>;

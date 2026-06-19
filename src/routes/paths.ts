@@ -6,6 +6,7 @@ export const paths = {
   bonuses: '/bonuses',
   games: '/games',
   gameCategories: '/games/categories',
+  gameCategoryDetail: (id: string) => `/games/categories/${id}`,
   gameProviders: '/games/providers',
   gameMatchHistory: '/games/match-history',
   gameLaunchConfig: '/games/launch-config',

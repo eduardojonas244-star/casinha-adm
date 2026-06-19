@@ -11,6 +11,7 @@ import { WalletAdjustmentPage } from './pages/WalletAdjustmentPage';
 import { BonusesPage } from './pages/BonusesPage';
 import { GamesPage } from './pages/GamesPage';
 import { CategoriesPage } from './pages/CategoriesPage';
+import { CategoryDetailPage } from './pages/CategoryDetailPage';
 import { ProvidersPage } from './pages/ProvidersPage';
 import { MatchHistoryPage } from './pages/MatchHistoryPage';
 import { GameLaunchConfigPage } from './pages/GameLaunchConfigPage';
@@ -47,6 +48,7 @@ export default function App() {
           <Route path="bonuses" element={<BonusesPage />} />
           <Route path="games" element={<GamesPage />} />
           <Route path="games/categories" element={<CategoriesPage />} />
+          <Route path="games/categories/:id" element={<CategoryDetailPage />} />
           <Route path="games/providers" element={<ProvidersPage />} />
           <Route path="games/match-history" element={<MatchHistoryPage />} />
           <Route path="games/launch-config" element={<GameLaunchConfigPage />} />
