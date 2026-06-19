@@ -13,6 +13,9 @@ export const paths = {
   gameKeys: '/games/keys',
   paymentsCredentials: '/payments/credentials',
   paymentsWebhooks: '/payments/webhooks',
+  paymentsDeposits: '/payments/deposits',
+  paymentsWithdrawals: '/payments/withdrawals',
+  banners: '/content/banners',
   affiliates: '/affiliates',
   accessDenied: '/access-denied',
 } as const;

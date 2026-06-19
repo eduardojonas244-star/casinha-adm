@@ -19,9 +19,12 @@ const gamesNav = [
   { to: paths.gameMatchHistory, label: 'Histórico de Partidas', icon: '📁' },
   { to: paths.gameLaunchConfig, label: 'Config. Abertura', icon: '🔒' },
   { to: paths.gameKeys, label: 'Chaves dos Jogos', icon: '⚙️' },
+  { to: paths.banners, label: 'Banners', icon: '🖼️' },
 ];
 
 const paymentsNav = [
+  { to: paths.paymentsDeposits, label: 'Depósitos', icon: '💳' },
+  { to: paths.paymentsWithdrawals, label: 'Saques', icon: '💸' },
   { to: paths.paymentsCredentials, label: 'Credenciais Pagnovo', icon: '🔑' },
   { to: paths.paymentsWebhooks, label: 'Webhooks Pagnovo', icon: '🔔' },
 ];

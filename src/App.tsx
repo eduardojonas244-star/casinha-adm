@@ -19,6 +19,9 @@ import { PlayFiverKeysPage } from './pages/PlayFiverKeysPage';
 import { PagnovoCredentialsPage } from './pages/PagnovoCredentialsPage';
 import { PagnovoWebhooksPage } from './pages/PagnovoWebhooksPage';
 import { AffiliatesPage } from './pages/AffiliatesPage';
+import { DepositsPage } from './pages/DepositsPage';
+import { WithdrawalsPage } from './pages/WithdrawalsPage';
+import { BannersPage } from './pages/BannersPage';
 import { AccessDeniedPage } from './pages/AccessDeniedPage';
 
 function Staff({ children }: { children: ReactNode }) {
@@ -55,6 +58,9 @@ export default function App() {
           <Route path="games/keys" element={<PlayFiverKeysPage />} />
           <Route path="payments/credentials" element={<PagnovoCredentialsPage />} />
           <Route path="payments/webhooks" element={<PagnovoWebhooksPage />} />
+          <Route path="payments/deposits" element={<DepositsPage />} />
+          <Route path="payments/withdrawals" element={<WithdrawalsPage />} />
+          <Route path="content/banners" element={<BannersPage />} />
           <Route path="affiliates" element={<AffiliatesPage />} />
         </Route>
       </Routes>
