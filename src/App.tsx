@@ -13,6 +13,7 @@ import { GamesPage } from "./pages/Games";
 import { MembersPage } from "./pages/Members";
 import { RolesPage } from "./pages/Roles";
 import { AuditLogPage } from "./pages/AuditLog";
+import { MarketingPage } from "./pages/Marketing";
 import { PlaceholderPage } from "./pages/Placeholder";
 
 function HealthBar() {
@@ -53,6 +54,7 @@ function Shell({ children }: { children: React.ReactNode }) {
           {item("/affiliates", "Afiliados")}
           {item("/games", "Jogos & Conteúdo")}
           <div className="nav-section">Administração</div>
+          {item("/marketing", "Tracking (Meta)")}
           {item("/members", "Equipe")}
           {item("/roles", "Papéis & Permissões")}
           {item("/audit", "Audit Log")}
@@ -91,6 +93,7 @@ export function App() {
         <Route path="/affiliates" element={<AffiliatesPage />} />
         <Route path="/affiliates/:id" element={<AffiliateDetailPage />} />
         <Route path="/games" element={<GamesPage />} />
+        <Route path="/marketing" element={<MarketingPage />} />
         <Route path="/members" element={<MembersPage />} />
         <Route path="/roles" element={<RolesPage />} />
         <Route path="/audit" element={<AuditLogPage />} />
